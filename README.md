@@ -7,6 +7,8 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 chsh -s $(which zsh)
 zsh
 
+# install powerlevel10k
+git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 # clone zsh-autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions.git ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 # clone zsh-syntax-highlighting

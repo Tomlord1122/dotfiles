@@ -25,7 +25,6 @@ alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias valgrindlc='valgrind --leak-check=full --show-leak-kinds=all'
-
 ## add homebrew configuring completions setting
 if type brew &>/dev/null
 then
@@ -36,8 +35,36 @@ then
 fi
 ## add zsh-completions setting
 autoload -U compinit && compinit
-sudo timedatectl set-timezone Asia/Taipei
 export PATH="/home/tomlord/llvm-project/build/bin:$PATH"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/tomlord/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/your-username/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/tomlord/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/tomlord/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+#  To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
+
+
+# pnpm
+export PNPM_HOME="/Users/tomlord/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+export HOMEBREW_NO_AUTO_UPDATE=1

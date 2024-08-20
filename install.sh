@@ -11,11 +11,6 @@ ln -sf $HOME/dotfiles/.zshrc $HOME/.zshrc
 mv $HOME/.p10k.zsh $HOME/.oldp10k.zsh &> /dev/null
 ln -sf $HOME/dotfiles/.p10k.zsh $HOME/.p10k.zsh
 
-mv $HOME/.vimrc $HOME/.oldvimrc &> /dev/null
-ln -sf $HOME/dotfiles/.vimrc $HOME/.vimrc
-
-mv $HOME/.vim $HOME/.oldvim &> /dev/null
-ln -sf $HOME/dotfiles/.vim $HOME/.vim
 
 ln -sf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 

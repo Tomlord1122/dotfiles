@@ -104,3 +104,4 @@
 # export PATH="/home/tomlord/llvm-project/build/bin:$PATH"
 
 zsh
+. "$HOME/.cargo/env"

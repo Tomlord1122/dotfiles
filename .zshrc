@@ -10,6 +10,7 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ## add plugin at this line
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+# plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 source $ZSH/oh-my-zsh.sh
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
@@ -20,11 +21,11 @@ HISTFILESIZE=2000
 alias cl='clear'
 alias ll='ls -alF'
 alias la='ls -A'
-alias l='ls -CF'
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias valgrindlc='valgrind --leak-check=full --show-leak-kinds=all'
+alias c="open $1 -a \"Cursor\""
 ## add homebrew configuring completions setting
 if type brew &>/dev/null
 then
@@ -35,18 +36,17 @@ then
 fi
 ## add zsh-completions setting
 autoload -U compinit && compinit
-export PATH="/home/tomlord/llvm-project/build/bin:$PATH"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/tomlord/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/home/your-username/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/tomlord/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/opt/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/tomlord/anaconda3/bin:$PATH"
+        export PATH="/opt/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
@@ -67,4 +67,4 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-export HOMEBREW_NO_AUTO_UPDATE=1
+export PATH=/Users/tomlord/go/bin:$PATH

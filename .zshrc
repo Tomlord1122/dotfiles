@@ -10,7 +10,12 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 ## add plugin at this line
 plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
-# plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
+
+# Add Homebrew zsh completions to FPATH
+if type brew &>/dev/null; then
+ FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
+fi
+
 source $ZSH/oh-my-zsh.sh
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
@@ -26,16 +31,6 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 alias valgrindlc='valgrind --leak-check=full --show-leak-kinds=all'
 alias c="open $1 -a \"Cursor\""
-## add homebrew configuring completions setting
-if type brew &>/dev/null
-then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
-
-  autoload -Uz compinit
-  compinit
-fi
-## add zsh-completions setting
-autoload -U compinit && compinit
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
@@ -68,3 +63,4 @@ esac
 # pnpm end
 
 export PATH=/Users/tomlord/go/bin:$PATH
+export PATH="/opt/homebrew/opt/node@20/bin:$PATH"

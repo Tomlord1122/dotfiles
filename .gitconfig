@@ -1,3 +1,10 @@
 [user]
 	email = aa123593465@gmail.com
 	name = tomlord
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+[http]
+	postBuffer = 157286400

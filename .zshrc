@@ -27,9 +27,6 @@ alias cl='clear'
 alias ll='ls -alF'
 alias la='ls -A'
 alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-alias valgrindlc='valgrind --leak-check=full --show-leak-kinds=all'
 alias c="open $1 -a \"Cursor\""
 
 # >>> conda initialize >>>
@@ -64,3 +61,10 @@ esac
 
 export PATH=/Users/tomlord/go/bin:$PATH
 export PATH="/opt/homebrew/opt/node@20/bin:$PATH"
+
+# bun completions
+[ -s "/Users/tomlord/.bun/_bun" ] && source "/Users/tomlord/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

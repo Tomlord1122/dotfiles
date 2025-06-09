@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define log file
-LOG_FILE="/Users/tomlord/dotfiles/log.log"
+LOG_FILE="/Users/tomlord/dotfiles/kill.log"
 
 # Ensure log file directory exists
 LOG_DIR=$(dirname "$LOG_FILE")

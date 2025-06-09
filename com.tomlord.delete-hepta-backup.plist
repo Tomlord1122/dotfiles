@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Task identifier, must be unique -->
+    <key>Label</key>
+    <string>com.tomlord.delete-hepta-backup</string>
+    
+    <!-- Program to execute and arguments -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/tomlord/dotfiles/launchd/delete_hepta_backup.sh</string>
+    </array>
+    
+    <!-- Execute every 3 days at midnight -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+        <!-- Execute every 3 days, using StartInterval is simpler -->
+    </dict>
+    
+    <!-- Execute every 3 days (259200 seconds = 3 days * 24 hours * 3600 seconds) -->
+    <key>StartInterval</key>
+    <integer>259200</integer>
+    
+    <!-- Set working directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/tomlord/dotfiles</string>
+    
+    <!-- Redirect standard output to log file -->
+    <key>StandardOutPath</key>
+    <string>/Users/tomlord/dotfiles/launchd/delete_hepta_backup.out</string>
+    
+    <!-- Redirect standard error to log file -->
+    <key>StandardErrorPath</key>
+    <string>/Users/tomlord/dotfiles/launchd/delete_hepta_backup.err</string>
+    
+    <!-- Run even if no user is logged in -->
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <!-- Set environment variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin</string>
+    </dict>
+</dict>
+</plist> 

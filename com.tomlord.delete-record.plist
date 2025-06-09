@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Task identifier, must be unique -->
+    <key>Label</key>
+    <string>com.tomlord.delete-record</string>
+    
+    <!-- Program to execute and arguments -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/tomlord/dotfiles/launchd/delete_record.sh</string>
+    </array>
+    
+    <!-- Execute every 12 hours (43200 seconds = 12 hours) -->
+    <key>StartInterval</key>
+    <integer>86400</integer>
+    
+    <!-- Set working directory -->
+    <key>WorkingDirectory</key>
+    <string>/Users/tomlord/dotfiles</string>
+    
+    <!-- Redirect standard output to log file -->
+    <key>StandardOutPath</key>
+    <string>/Users/tomlord/dotfiles/launchd/delete_record.out</string>
+    
+    <!-- Redirect standard error to log file -->
+    <key>StandardErrorPath</key>
+    <string>/Users/tomlord/dotfiles/launchd/delete_record.err</string>
+    
+    <!-- Run even if no user is logged in -->
+    <key>RunAtLoad</key>
+    <true/>
+    
+    <!-- Set environment variables -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin</string>
+    </dict>
+</dict>
+</plist> 

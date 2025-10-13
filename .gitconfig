@@ -1,6 +1,6 @@
 [user]
 	email = aa123593465@gmail.com
-	name = tomlord
+	name = Hsiu-Chi Liu (Tomlord)
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
@@ -8,3 +8,5 @@
 	smudge = git-lfs smudge -- %f
 [http]
 	postBuffer = 157286400
+[pull]
+    rebase = false

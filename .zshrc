@@ -27,6 +27,7 @@ alias gn="git pull upstream master"
 alias gm="git merge --no-ff"
 alias gocache="go clean -cache -modcache"
 alias license="addlicense -c \"Hsiu-Chi Liu (Tomlord)\" -l mit ."
+alias claude-clean="rm -rf ~/.claude/projects"
 export PATH=/Users/tomlord/go/bin:$PATH
 
 # bun completions
@@ -41,3 +42,11 @@ export PATH="$HOME/.govm/shim:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="/Users/tomlord/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

@@ -29,7 +29,7 @@ log_message() {
 }
 
 # Define target directory
-TARGET_DIR="/Users/tomlord/Documents/superwhisper/recordings"
+TARGET_DIR="/Users/tomlord/superwhisper/recordings"
 
 # Check if directory exists first
 if [ ! -d "$TARGET_DIR" ]; then
@@ -37,18 +37,13 @@ if [ ! -d "$TARGET_DIR" ]; then
     exit 0
 fi
 
-# Try to delete with better error handling
+# Try to delete contents while keeping the directory
 if [ -w "$TARGET_DIR" ] || [ -w "$(dirname "$TARGET_DIR")" ]; then
-    # We have write permission, try to delete
-    if rm -rf "$TARGET_DIR" 2>/dev/null; then
-        log_message "SuperWhisper recordings directory deleted successfully"
+    # We have write permission, try to delete contents
+    if find "$TARGET_DIR" -mindepth 1 -delete 2>/dev/null; then
+        log_message "SuperWhisper recordings directory contents deleted successfully"
     else
-        # Try alternative method - delete contents first
-        if find "$TARGET_DIR" -type f -delete 2>/dev/null && rmdir "$TARGET_DIR" 2>/dev/null; then
-            log_message "SuperWhisper recordings directory cleaned and removed"
-        else
-            log_message "Failed to delete SuperWhisper recordings directory - Permission denied. Please check macOS privacy settings."
-        fi
+        log_message "Failed to delete SuperWhisper recordings directory contents - Permission denied. Please check macOS privacy settings."
     fi
 else
     log_message "No write permission for SuperWhisper recordings directory. Please check macOS privacy settings."

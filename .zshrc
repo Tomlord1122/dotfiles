@@ -23,7 +23,7 @@ alias c="open $1 -a \"Cursor\""
 alias gor="go-recipe"
 alias gos="go-symphony create -a"
 alias gc="git commit -s -m"
-alias gn="git pull upstream master"
+alias gn="git pull upstream"
 alias gm="git merge --no-ff"
 alias gocache="go clean -cache -modcache"
 alias license="addlicense -c \"Hsiu-Chi Liu (Tomlord)\" -l mit ."
@@ -50,3 +50,4 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+export GOPRIVATE=github.trendmicro.com,adc.github.trendmicro.com

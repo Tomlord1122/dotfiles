@@ -1,6 +1,6 @@
 [user]
 	email = aa123593465@gmail.com
-	name = Hsiu-Chi Liu (Tomlord)
+	name = Tom Liu (Liu Hsiu-Chi)
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

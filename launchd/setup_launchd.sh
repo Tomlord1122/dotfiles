@@ -17,7 +17,6 @@ LAUNCHAGENTS_DIR="$HOME/Library/LaunchAgents"
 # plist file list
 PLIST_FILES=(
     "com.tomlord.delete-record.plist"
-    "com.tomlord.delete-hepta-backup.plist"
 )
 
 # Function: Print a message with color

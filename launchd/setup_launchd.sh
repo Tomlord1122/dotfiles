@@ -11,12 +11,13 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Define paths
-DOTFILES_DIR="/Users/tom_liu/dotfiles"
+DOTFILES_DIR="$HOME/dotfiles"
 LAUNCHAGENTS_DIR="$HOME/Library/LaunchAgents"
 
 # plist file list
+USER_PLIST_PREFIX=$(echo "$HOME" | sed 's/^.*\///')
 PLIST_FILES=(
-    "com.tom_liu.delete-record.plist"
+    "com.${USER_PLIST_PREFIX}.delete-record.plist"
 )
 
 # Function: Print a message with color

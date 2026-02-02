@@ -19,14 +19,13 @@ HISTFILESIZE=2000
 alias cl='clear'
 alias la='ls -A'
 alias grep='grep --color=auto'
-alias c="open $1 -a \"Cursor\""
-alias gor="go-recipe"
 alias gos="go-symphony create -a"
 alias gc="git commit -s -m"
-alias gn="git pull upstream master"
+alias gn="git pull upstream"
 alias gm="git merge --no-ff"
 alias gocache="go clean -cache -modcache"
-alias license="addlicense -c \"Hsiu-Chi Liu (Tomlord)\" -l mit ."
+alias oc="opencode"
+alias c="open  -a "Cursor""
 export PATH=/Users/tomlord/go/bin:$PATH
 
 # bun completions
@@ -37,7 +36,12 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.govm/shim:$PATH"
-
+export PATH="/Users/tom_liu/go/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+export PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+export PUPPETEER_EXECUTABLE_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+export GOPRIVATE=github.trendmicro.com,adc.github.trendmicro.com

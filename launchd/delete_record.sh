@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Define log file
-LOG_FILE="/Users/tomlord/dotfiles/launchd/launchd.log"
+LOG_FILE="/Users/tom_liu/dotfiles/launchd/launchd.log"
 
 # Ensure log file directory exists
 LOG_DIR=$(dirname "$LOG_FILE")
@@ -29,7 +29,7 @@ log_message() {
 }
 
 # Define target directory
-TARGET_DIR="/Users/tomlord/Documents/superwhisper/recordings"
+TARGET_DIR="/Users/tom_liu/workspace/superwhisper/recordings"
 
 # Check if directory exists first
 if [ ! -d "$TARGET_DIR" ]; then

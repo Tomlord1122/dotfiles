@@ -15,7 +15,7 @@
     
     <!-- Execute every 12 hours (43200 seconds = 12 hours) -->
     <key>StartInterval</key>
-    <integer>86400</integer>
+    <integer>43200</integer>
     
     <!-- Set working directory -->
     <key>WorkingDirectory</key>

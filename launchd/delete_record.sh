@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 # Define log file
-LOG_FILE="/Users/tom_liu/dotfiles/launchd/launchd.log"
+LOG_FILE="/Users/tomlord/dotfiles/launchd/launchd.log"
 
 # Ensure log file directory exists
 LOG_DIR=$(dirname "$LOG_FILE")

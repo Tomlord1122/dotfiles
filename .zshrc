@@ -27,16 +27,47 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 # some more handy aliases
+th() {
+  cat <<'EOF'
+TMUX QUICK REFERENCE
+--------------------
+Sessions:
+  tmux                        Start a new unnamed session
+  tmux new -s <name>          Start a new named session
+  tmux ls                     List all sessions
+  tmux a                      Attach to the last session
+  tmux a -t <name>            Attach to a named session
+  tmux rename-session <name>  Rename current session (from outside)
+  tmux kill-session -t <name> Kill a named session
+  tmux kill-server            Kill all sessions
+
+Inside tmux (prefix = Ctrl+b):
+  prefix + $                  Rename current session
+  prefix + d                  Detach from session
+  prefix + s                  Show session list (interactive)
+  prefix + c                  New window
+  prefix + ,                  Rename current window
+  prefix + n / p              Next / previous window
+  prefix + |                  Split pane vertically   (custom)
+  prefix + -                  Split pane horizontally (custom)
+  prefix + arrow keys         Navigate between panes
+  prefix + z                  Toggle pane zoom (fullscreen)
+  prefix + [                  Enter copy/scroll mode (q to quit)
+  prefix + y                  Open yazi in split pane (custom)
+--------------------
+EOF
+}
 alias cl='clear'
 alias la='ls -A'
 alias grep='grep --color=auto'
 alias gos="go-symphony create -a"
 alias gc="git commit -s -m"
 alias gn="git pull upstream"
-alias gm="git merge --no-ff"
 alias gocache="go clean -cache -modcache"
 alias oc="opencode"
 alias c="open  -a "Cursor""
+alias y='yazi ~/workspace'
+alias t='tmux a'
 export PATH="$HOME/go/bin:$PATH"
 
 # bun completions
@@ -46,7 +77,6 @@ export PATH="$HOME/go/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/.govm/shim:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -65,3 +95,4 @@ source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+

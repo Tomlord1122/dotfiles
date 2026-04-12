@@ -5,6 +5,7 @@ adjust-cell-height = 5%
 font-thicken = true
 quick-terminal-position = top
 quick-terminal-autohide = true
+quick-terminal-animation-duration = 0
 quick-terminal-size = 60%, 100%
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:option+grave_accent=toggle_quick_terminal

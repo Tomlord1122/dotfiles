@@ -14,3 +14,6 @@ ln -sf $HOME/dotfiles/.p10k.zsh $HOME/.p10k.zsh
 
 ln -sf $HOME/dotfiles/.tmux.conf $HOME/.tmux.conf
 
+mkdir -p $HOME/.config
+ln -sf $HOME/dotfiles/config/ghostty $HOME/.config/ghostty
+

@@ -1,0 +1,29 @@
+theme = Dracula
+font-size = 14
+font-family = Google Sans Code
+adjust-cell-height = 5%
+font-thicken = true
+quick-terminal-position = top
+quick-terminal-autohide = true
+quick-terminal-size = 60%, 100%
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+keybind = global:option+grave_accent=toggle_quick_terminal
+window-save-state = always
+macos-titlebar-style = tabs
+cursor-style = bar      
+cursor-click-to-move = true
+minimum-contrast = 2
+unfocused-split-opacity = 0.85
+background-opacity = 0.95
+cursor-color = #1BD8F5
+
+
+keybind = cmd+left=esc:b
+keybind = cmd+right=esc:f
+
+# Shader transition effect
+custom-shader-animation = true
+custom-shader = shaders/cursor-shaders/cursor_warp.glsl
+custom-shader = shaders/cursor-shaders/ripple_cursor.glsl
+custom-shader = shaders/cursor-shaders/cursor_tail.glsl
+

@@ -219,6 +219,7 @@ alias gocache="go clean -cache -modcache"
 alias oc="opencode"
 alias c="open  -a "Cursor""
 alias t='tmux a'
+alias vim='nvim'
 export PATH="$HOME/go/bin:$PATH"
 
 # bun completions

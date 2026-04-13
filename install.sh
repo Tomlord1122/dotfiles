@@ -1,39 +1,36 @@
 #!/bin/bash
+set -euo pipefail
 
 DOTFILES_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-ln -sf "$DOTFILES_ROOT/.gitconfig" "$HOME/.gitconfig"
+link() {
+  local src="$1"
+  local dst="$2"
 
-mv "$HOME/.bashrc" "$HOME/.oldbashrc" &> /dev/null
-ln -sf "$DOTFILES_ROOT/.bashrc" "$HOME/.bashrc"
+  # For directory targets, back up if it's a real directory (not a symlink)
+  if [[ -d "$dst" && ! -L "$dst" ]]; then
+    local backup="${dst}.bak.$(date +%Y%m%d%H%M%S)"
+    echo "  Backing up existing directory: $dst -> $backup"
+    mv "$dst" "$backup"
+  fi
 
-mv "$HOME/.zshrc" "$HOME/.oldzshrc" &> /dev/null
-ln -sf "$DOTFILES_ROOT/.zshrc" "$HOME/.zshrc"
+  # -s: symbolic, -h: don't follow if dst is a symlink, -f: force replace
+  ln -shf "$src" "$dst"
+  echo "  Linked: $dst -> $src"
+}
 
-mv "$HOME/.p10k.zsh" "$HOME/.oldp10k.zsh" &> /dev/null
-ln -sf "$DOTFILES_ROOT/.p10k.zsh" "$HOME/.p10k.zsh"
+echo "==> Linking dotfiles from $DOTFILES_ROOT"
 
+link "$DOTFILES_ROOT/.gitconfig"  "$HOME/.gitconfig"
+link "$DOTFILES_ROOT/.bashrc"     "$HOME/.bashrc"
+link "$DOTFILES_ROOT/.zshrc"      "$HOME/.zshrc"
+link "$DOTFILES_ROOT/.p10k.zsh"   "$HOME/.p10k.zsh"
+link "$DOTFILES_ROOT/.tmux.conf"  "$HOME/.tmux.conf"
 
-ln -sf "$DOTFILES_ROOT/.tmux.conf" "$HOME/.tmux.conf"
+echo "==> Linking config directories"
 
 mkdir -p "$HOME/.config"
-GHOSTTY_SRC="$DOTFILES_ROOT/config/ghostty"
-GHOSTTY_DST="$HOME/.config/ghostty"
-if [[ -L "$GHOSTTY_DST" ]]; then
-	rm -f "$GHOSTTY_DST"
-fi
-if [[ -e "$GHOSTTY_DST" && ! -L "$GHOSTTY_DST" ]]; then
-	mv "$GHOSTTY_DST" "${GHOSTTY_DST}.bak.$(date +%Y%m%d%H%M%S)"
-fi
-ln -sf "$GHOSTTY_SRC" "$GHOSTTY_DST"
+link "$DOTFILES_ROOT/config/ghostty" "$HOME/.config/ghostty"
+link "$DOTFILES_ROOT/config/nvim"    "$HOME/.config/nvim"
 
-# Neovim
-NVIM_SRC="$DOTFILES_ROOT/config/nvim"
-NVIM_DST="$HOME/.config/nvim"
-if [[ -L "$NVIM_DST" ]]; then
-	rm -f "$NVIM_DST"
-fi
-if [[ -e "$NVIM_DST" && ! -L "$NVIM_DST" ]]; then
-	mv "$NVIM_DST" "${NVIM_DST}.bak.$(date +%Y%m%d%H%M%S)"
-fi
-ln -sf "$NVIM_SRC" "$NVIM_DST"
+echo "==> Done"

@@ -103,5 +103,12 @@
 
 # export PATH="/home/tomlord/llvm-project/build/bin:$PATH"
 
-zsh
-. "$HOME/.cargo/env"
+case $- in
+  *i*)
+    if command -v zsh >/dev/null 2>&1 && [ -z "${ZSH_VERSION:-}" ]; then
+      exec zsh
+    fi
+    ;;
+esac
+
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"

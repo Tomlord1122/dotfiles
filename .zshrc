@@ -7,20 +7,34 @@ fi
 
 
 export ZSH="$HOME/.oh-my-zsh"
+export ZSH_CUSTOM="${ZSH_CUSTOM:-$ZSH/custom}"
 
 ## add plugin at this line
 plugins=(git)
 
-# Add Homebrew zsh completions to FPATH
-if type brew &>/dev/null; then
- FPATH="$(brew --prefix)/share/zsh-completions:$FPATH"
+# Add Homebrew zsh completions to FPATH when available.
+if command -v brew >/dev/null 2>&1; then
+  export HOMEBREW_PREFIX="${HOMEBREW_PREFIX:-$(brew --prefix)}"
+  if [[ -d "$HOMEBREW_PREFIX/share/zsh-completions" ]]; then
+    FPATH="$HOMEBREW_PREFIX/share/zsh-completions:$FPATH"
+  fi
 fi
 
-source $ZSH/oh-my-zsh.sh
+if [[ -f "$ZSH/oh-my-zsh.sh" ]]; then
+  source "$ZSH/oh-my-zsh.sh"
+fi
 
-# Load Homebrew zsh plugins
-source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -f "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$ZSH_CUSTOM/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+elif [[ -n "${HOMEBREW_PREFIX:-}" && -f "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+if [[ -f "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+elif [[ -n "${HOMEBREW_PREFIX:-}" && -f "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -217,9 +231,15 @@ alias gc="git commit -s -m"
 alias gn="git pull upstream"
 alias gocache="go clean -cache -modcache"
 alias oc="opencode"
-alias c="open  -a "Cursor""
 alias t='tmux a'
 alias vim='nvim'
+
+if command -v cursor >/dev/null 2>&1; then
+  alias c='cursor'
+elif command -v open >/dev/null 2>&1; then
+  alias c='open -a "Cursor"'
+fi
+
 export PATH="$HOME/go/bin:$PATH"
 
 # bun completions
@@ -235,7 +255,16 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # pnpm
-export PNPM_HOME="$HOME/Library/pnpm"
+if [[ -z "${PNPM_HOME:-}" ]]; then
+  if [[ -d "$HOME/Library/pnpm" ]]; then
+    export PNPM_HOME="$HOME/Library/pnpm"
+  elif [[ -n "${XDG_DATA_HOME:-}" ]]; then
+    export PNPM_HOME="$XDG_DATA_HOME/pnpm"
+  else
+    export PNPM_HOME="$HOME/.local/share/pnpm"
+  fi
+fi
+
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
@@ -243,7 +272,11 @@ esac
 # pnpm end
 export GOPRIVATE=github.trendmicro.com,adc.github.trendmicro.com
 
-source $HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+if [[ -f "$ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  source "$ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme"
+elif [[ -n "${HOMEBREW_PREFIX:-}" && -f "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  source "$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
+fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

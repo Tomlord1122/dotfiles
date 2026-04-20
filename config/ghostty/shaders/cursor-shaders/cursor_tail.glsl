@@ -2,7 +2,8 @@
 vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
 const float DURATION = 0.09; // in seconds
 const float MAX_TRAIL_LENGTH = 0.2;
-const float THRESHOLD_MIN_DISTANCE = 1.5; // min distance to show trail (units of cursor width)
+const float THRESHOLD_MIN_DISTANCE = 0.15; // min distance to show trail (units of cursor height)
+const float THRESHOLD_MAX_DISTANCE = 1.1; // max distance to keep the effect near typing-sized moves
 const float BLUR = 2.0; // blur size in pixels (for antialiasing)
 
 // --- CONSTANTS for easing functions ---
@@ -160,9 +161,12 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
 	
      vec4 newColor = vec4(fragColor);
 	
+     // Bar cursors are very thin, so gate the effect using cursor height instead of width.
+     // This keeps one-cell typing moves while filtering larger redraw/prompt jumps.
      float minDist = currentCursor.w * THRESHOLD_MIN_DISTANCE;
+     float maxDist = currentCursor.w * THRESHOLD_MAX_DISTANCE;
      float progress = clamp((iTime - iTimeCursorChange) / DURATION, 0.0, 1.0);
-     if (lineLength > minDist) {
+     if (lineLength > minDist && lineLength < maxDist) {
          // ANIMATION logic
         
         float head_eased = 0.0;

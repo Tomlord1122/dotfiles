@@ -1,6 +1,6 @@
 // -- CONFIGURATION --
 vec4 TRAIL_COLOR = iCurrentCursorColor; // can change to eg: vec4(0.2, 0.6, 1.0, 0.5);
-const float DURATION = 0.09; // in seconds
+const float DURATION = 0.15; // in seconds
 const float MAX_TRAIL_LENGTH = 0.2;
 const float THRESHOLD_MIN_DISTANCE = 0.15; // min distance to show trail (units of cursor height)
 const float THRESHOLD_MAX_DISTANCE = 1.1; // max distance to keep the effect near typing-sized moves

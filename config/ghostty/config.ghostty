@@ -25,6 +25,5 @@ keybind = cmd+right=esc:f
 # Shader transition effect
 custom-shader-animation = true
 custom-shader = shaders/cursor-shaders/cursor_warp.glsl
-custom-shader = shaders/cursor-shaders/ripple_cursor.glsl
 custom-shader = shaders/cursor-shaders/cursor_tail.glsl
 

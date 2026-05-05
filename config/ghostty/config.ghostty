@@ -6,7 +6,7 @@ font-thicken = true
 quick-terminal-position = top
 quick-terminal-autohide = false
 quick-terminal-animation-duration = 0
-quick-terminal-size = 60%, 100%
+quick-terminal-size = 100%, 100%
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 keybind = global:option+grave_accent=toggle_quick_terminal
 window-save-state = always

@@ -234,10 +234,10 @@ alias oc="opencode"
 alias t='tmux a'
 alias vim='nvim'
 
-if command -v cursor >/dev/null 2>&1; then
-  alias c='cursor'
+if command -v zed >/dev/null 2>&1; then
+  alias c='zed'
 elif command -v open >/dev/null 2>&1; then
-  alias c='open -a "Cursor"'
+  alias c='open -a "Zed"'
 fi
 
 export PATH="$HOME/go/bin:$PATH"
@@ -280,3 +280,7 @@ fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# opencode
+export PATH=/Users/tomlord/.opencode/bin:$PATH
+export PATH=~/.npm-global/bin:$PATH

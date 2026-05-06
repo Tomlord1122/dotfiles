@@ -281,12 +281,27 @@ link_dotfiles() {
   link "$DOTFILES_ROOT/config/nvim" "$HOME/.config/nvim"
 }
 
+link_bin_scripts() {
+  log "Linking bin scripts to ~/.local/bin"
+  mkdir -p "$HOME/.local/bin"
+
+  local script
+  for script in "$DOTFILES_ROOT/bin"/*; do
+    [[ -f "$script" ]] || continue
+    local name
+    name="$(basename "$script")"
+    chmod +x "$script"
+    link "$script" "$HOME/.local/bin/$name"
+  done
+}
+
 install_core_packages
 install_oh_my_zsh
 install_shell_plugins
 install_tmux_tpm
 install_optional_toolchains
 link_dotfiles
+link_bin_scripts
 set_default_shell
 
 log "Done"

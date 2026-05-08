@@ -281,6 +281,22 @@ link_dotfiles() {
   link "$DOTFILES_ROOT/config/nvim" "$HOME/.config/nvim"
 }
 
+link_launchd_agents() {
+  log "Linking launchd agents"
+
+  local plist
+  for plist in "$DOTFILES_ROOT/launchd"/*.plist; do
+    [[ -f "$plist" ]] || continue
+    local name
+    name="$(basename "$plist")"
+    link "$plist" "$HOME/Library/LaunchAgents/$name"
+    if launchctl list "$name" &>/dev/null; then
+      launchctl unload "$HOME/Library/LaunchAgents/$name" 2>/dev/null || true
+    fi
+    launchctl load "$HOME/Library/LaunchAgents/$name"
+  done
+}
+
 link_bin_scripts() {
   log "Linking bin scripts to ~/.local/bin"
   mkdir -p "$HOME/.local/bin"
@@ -302,6 +318,7 @@ install_tmux_tpm
 install_optional_toolchains
 link_dotfiles
 link_bin_scripts
+link_launchd_agents
 set_default_shell
 
 log "Done"

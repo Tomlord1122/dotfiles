@@ -229,10 +229,22 @@ alias grep='grep --color=auto'
 alias gos="go-symphony create -a"
 alias gc="git commit -s -m"
 alias gn="git pull upstream"
+alias hd="hunk diff"
+alias hds="hunk show"
+alias hdw="hunk diff --watch"
 alias gocache="go clean -cache -modcache"
 alias oc="opencode"
 alias t='tmux a'
 alias vim='nvim'
+
+# Use Hunk for git diff/show, pass everything else to real git
+git() {
+  if [[ "$1" == "diff" || "$1" == "show" ]]; then
+    hunk "$@"
+  else
+    command git "$@"
+  fi
+}
 
 if command -v zed >/dev/null 2>&1; then
   alias c='zed'

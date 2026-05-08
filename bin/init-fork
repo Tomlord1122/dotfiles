@@ -75,45 +75,6 @@ else
   echo "==> Local '${DEFAULT_BRANCH}' branch not found, skipping deletion."
 fi
 
-# ── Step 6: Add sync-fork GitHub Actions workflow ─────────────────────────────
-
-WORKFLOW_DIR=".github/workflows"
-WORKFLOW_FILE="${WORKFLOW_DIR}/sync-fork.yml"
-
-echo "==> Adding sync-fork workflow..."
-mkdir -p "${WORKFLOW_DIR}"
-
-cat > "${WORKFLOW_FILE}" <<EOF
-name: Sync Fork
-
-on:
-  schedule:
-    - cron: '0 0 * * *'  # Every day at UTC 00:00
-  workflow_dispatch:       # Allow manual trigger
-
-jobs:
-  sync:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Sync fork with upstream
-        uses: actions/github-script@v7
-        with:
-          github-token: \${{ secrets.GITHUB_TOKEN }}
-          script: |
-            await github.rest.repos.mergeUpstream({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              branch: '${DEFAULT_BRANCH}',
-            });
-            console.log('Synced fork with upstream successfully');
-EOF
-
-git add "${WORKFLOW_FILE}"
-git commit -m "ci: add daily sync-fork workflow"
-git push origin "HEAD:${DEFAULT_BRANCH}"
-
-echo "    sync-fork.yml committed and pushed to origin/${DEFAULT_BRANCH}"
-
 # ── Done ──────────────────────────────────────────────────────────────────────
 
 echo ""

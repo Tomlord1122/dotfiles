@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+# Usage: ./init-fork.sh <upstream-url>
+# Run this script from inside the cloned fork directory.
+#
+# Example:
+#   cd ~/workspace/open-source/temporal
+#   ../init-fork.sh https://github.com/temporalio/temporal
+
+set -e
+
+UPSTREAM_URL="${1}"
+
+# ── Validation ────────────────────────────────────────────────────────────────
+
+if [[ -z "${UPSTREAM_URL}" ]]; then
+  echo "Usage: $0 <upstream-url>"
+  echo "Example: $0 https://github.com/temporalio/temporal"
+  exit 1
+fi
+
+if ! git rev-parse --git-dir &>/dev/null; then
+  echo "Error: not inside a git repository. Please cd into your cloned fork first."
+  exit 1
+fi
+
+# ── Step 1: Add upstream remote ───────────────────────────────────────────────
+
+echo "==> Adding upstream remote: ${UPSTREAM_URL}"
+
+if git remote get-url upstream &>/dev/null; then
+  echo "    upstream already exists, skipping."
+else
+  git remote add upstream "${UPSTREAM_URL}"
+fi
+
+git remote set-url --push upstream no_push
+echo "    Push to upstream disabled."
+
+# ── Step 2: Fetch upstream ────────────────────────────────────────────────────
+
+echo "==> Fetching upstream..."
+git fetch upstream
+
+# ── Step 3: Detect upstream default branch (any name) ────────────────────────
+
+# Ask the remote which HEAD it points to
+DEFAULT_BRANCH=$(git remote show upstream 2>/dev/null \
+  | grep "HEAD branch" \
+  | awk '{print $NF}')
+
+if [[ -z "${DEFAULT_BRANCH}" || "${DEFAULT_BRANCH}" == "(unknown)" ]]; then
+  echo "Error: cannot detect upstream default branch."
+  exit 1
+fi
+
+echo "==> Detected upstream default branch: ${DEFAULT_BRANCH}"
+
+# ── Step 4: Create local tracking branch upstream-<default> ──────────────────
+
+TRACKING_BRANCH="upstream-${DEFAULT_BRANCH}"
+
+if git show-ref --verify --quiet "refs/heads/${TRACKING_BRANCH}"; then
+  echo "==> '${TRACKING_BRANCH}' already exists, skipping creation."
+else
+  echo "==> Creating local branch '${TRACKING_BRANCH}' tracking upstream/${DEFAULT_BRANCH}"
+  git checkout -b "${TRACKING_BRANCH}" "upstream/${DEFAULT_BRANCH}"
+fi
+
+# ── Step 5: Delete the local default branch ───────────────────────────────────
+
+if git show-ref --verify --quiet "refs/heads/${DEFAULT_BRANCH}"; then
+  echo "==> Deleting local '${DEFAULT_BRANCH}' branch..."
+  git branch -d "${DEFAULT_BRANCH}" 2>/dev/null || git branch -D "${DEFAULT_BRANCH}"
+else
+  echo "==> Local '${DEFAULT_BRANCH}' branch not found, skipping deletion."
+fi
+
+# ── Done ──────────────────────────────────────────────────────────────────────
+
+echo ""
+echo "Done! Setup complete."
+echo ""
+echo "Current remotes:"
+git remote -v
+echo ""
+echo "Next steps:"
+echo "  # Start a new feature branch:"
+echo "  git checkout -b <branch-name> ${TRACKING_BRANCH}"
+echo ""
+echo "  # Push (no need for --set-upstream, autoSetupRemote is enabled):"
+echo "  git push"
+echo ""
+echo "  # Delete a remote branch after PR is merged:"
+echo "  git push --delete origin <branch-name>"

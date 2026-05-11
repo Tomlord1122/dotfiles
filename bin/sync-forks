@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Usage: ./sync-forks
+# Runs locally to sync all fork tracking branches with upstream.
+# Safe to run from any directory; only touches repos under ~/workspace/open-source.
+#
+# Intended for cron, e.g.:
+#   0 0 * * * /bin/bash /Users/tomlord/dotfiles/bin/sync-forks
+
+set -e
+
+ROOT="${HOME}/workspace/open-source"
+
+if [[ ! -d "${ROOT}" ]]; then
+  echo "No open-source directory at ${ROOT}"
+  exit 0
+fi
+
+for repo in "${ROOT}"/*; do
+  [[ -d "${repo}/.git" ]] || continue
+
+  repo_name=$(basename "${repo}")
+  echo "=== ${repo_name} ==="
+
+  # Ensure upstream remote exists
+  if ! git -C "${repo}" remote get-url upstream &>/dev/null; then
+    echo "    no upstream remote, skipping"
+    continue
+  fi
+
+  # Detect upstream default branch
+  default_branch=$(git -C "${repo}" remote show upstream 2>/dev/null \
+    | grep "HEAD branch" \
+    | awk '{print $NF}')
+
+  if [[ -z "${default_branch}" || "${default_branch}" == "(unknown)" ]]; then
+    echo "    cannot detect upstream default branch, skipping"
+    continue
+  fi
+
+  tracking_branch="upstream-${default_branch}"
+
+  # Verify tracking branch exists locally
+  if ! git -C "${repo}" show-ref --verify --quiet "refs/heads/${tracking_branch}"; then
+    echo "    tracking branch '${tracking_branch}' not found, skipping"
+    continue
+  fi
+
+  # Discard any local changes and switch to tracking branch
+  git -C "${repo}" checkout "${tracking_branch}" 2>/dev/null || {
+    echo "    cannot checkout '${tracking_branch}', skipping"
+    continue
+  }
+
+  git -C "${repo}" fetch upstream
+
+  # Check if we're behind
+  upstream_ref="upstream/${default_branch}"
+  if git -C "${repo}" merge-base --is-ancestor HEAD "${upstream_ref}"; then
+    echo "    already up to date"
+  else
+    echo "    pulling upstream changes..."
+    git -C "${repo}" reset --hard "${upstream_ref}"
+    echo "    synced to $(git -C "${repo}" rev-parse --short HEAD)"
+  fi
+done
+
+echo ""
+echo "Done."

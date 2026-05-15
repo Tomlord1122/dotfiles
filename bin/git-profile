@@ -1,0 +1,147 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+GITCONFIG_DIR="$(cd "$(dirname "$SCRIPT_PATH")/.." && pwd)/gitconfig"
+PROFILE_LINK="$HOME/.gitconfig.profile"
+
+usage() {
+  cat <<EOF
+Usage: git-profile [command]
+
+Toggle or switch git user profiles.
+
+Commands:
+  git-profile              Toggle between profiles
+  git-profile <name>       Switch to the specified profile
+  git-profile --list       List all available profiles
+  git-profile --current    Show current active profile
+  git-profile --help       Show this help message
+EOF
+}
+
+get_profiles() {
+  local profile
+  for profile in "$GITCONFIG_DIR"/*; do
+    [[ -f "$profile" ]] || continue
+    basename "$profile"
+  done
+}
+
+get_current() {
+  if [[ -L "$PROFILE_LINK" ]]; then
+    basename "$(readlink "$PROFILE_LINK")"
+  else
+    echo ""
+  fi
+}
+
+list_profiles() {
+  local current
+  current="$(get_current)"
+  echo "Available profiles:"
+  local profile
+  for profile in "$GITCONFIG_DIR"/*; do
+    [[ -f "$profile" ]] || continue
+    local name
+    name="$(basename "$profile")"
+    if [[ "$name" == "$current" ]]; then
+      printf '  * %s\n' "$name"
+    else
+      printf '    %s\n' "$name"
+    fi
+  done
+}
+
+show_current() {
+  local current
+  current="$(get_current)"
+  if [[ -n "$current" ]]; then
+    local target
+    target="$(readlink "$PROFILE_LINK")"
+    echo "Current profile: $current"
+    echo "Source: $target"
+    echo ""
+    echo "User settings:"
+    git config --file "$PROFILE_LINK" --get-regexp '^user\.' 2>/dev/null || echo "  (none)"
+  else
+    echo "No profile active. Run 'git-profile' to toggle."
+  fi
+}
+
+switch_profile() {
+  local profile_name="$1"
+  local profile_path="$GITCONFIG_DIR/$profile_name"
+
+  if [[ ! -f "$profile_path" ]]; then
+    printf 'Error: profile "%s" not found\n' "$profile_name" >&2
+    echo "" >&2
+    list_profiles >&2
+    exit 1
+  fi
+
+  ln -sfn "$profile_path" "$PROFILE_LINK"
+
+  local name email
+  name=$(git config --file "$PROFILE_LINK" --get user.name)
+  email=$(git config --file "$PROFILE_LINK" --get user.email)
+
+  echo "Switched to profile: $profile_name"
+  echo "  Name:  $name"
+  echo "  Email: $email"
+}
+
+toggle_profile() {
+  local current
+  current="$(get_current)"
+  local profiles
+  profiles=($(get_profiles))
+
+  if [[ ${#profiles[@]} -eq 0 ]]; then
+    echo "No profiles found in $GITCONFIG_DIR" >&2
+    exit 1
+  fi
+
+  if [[ ${#profiles[@]} -eq 1 ]]; then
+    switch_profile "${profiles[0]}"
+    return
+  fi
+
+  local next=""
+  local found_current=false
+  for p in "${profiles[@]}"; do
+    if $found_current; then
+      next="$p"
+      break
+    fi
+    if [[ "$p" == "$current" ]]; then
+      found_current=true
+    fi
+  done
+
+  if [[ -z "$next" ]]; then
+    next="${profiles[0]}"
+  fi
+
+  switch_profile "$next"
+}
+
+if [[ $# -eq 0 ]]; then
+  toggle_profile
+  exit 0
+fi
+
+case "$1" in
+  --list|-l)
+    list_profiles
+    ;;
+  --current|-c)
+    show_current
+    ;;
+  --help|-h)
+    usage
+    ;;
+  *)
+    switch_profile "$1"
+    ;;
+esac

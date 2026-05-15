@@ -279,6 +279,15 @@ link_dotfiles() {
   log "Linking config directories"
   link "$DOTFILES_ROOT/config/ghostty" "$HOME/.config/ghostty"
   link "$DOTFILES_ROOT/config/nvim" "$HOME/.config/nvim"
+
+  log "Setting up git profile"
+  if [[ ! -L "$HOME/.gitconfig.profile" ]]; then
+    local default_profile="$DOTFILES_ROOT/gitconfig/work"
+    if [[ -f "$default_profile" ]]; then
+      ln -sfn "$default_profile" "$HOME/.gitconfig.profile"
+      printf '  Default git profile set to: work\n'
+    fi
+  fi
 }
 
 link_launchd_agents() {

@@ -1,6 +1,5 @@
-[user]
-	email = aa123593465@gmail.com
-	name = Tom Liu (Liu Hsiu-Chi)
+[include]
+	path = ~/.gitconfig.profile
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

@@ -296,3 +296,6 @@ fi
 # opencode
 export PATH=/Users/tomlord/.opencode/bin:$PATH
 export PATH=~/.npm-global/bin:$PATH
+
+# opencode
+export PATH=/Users/tom_liu/.opencode/bin:$PATH

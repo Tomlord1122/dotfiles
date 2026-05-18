@@ -53,14 +53,19 @@ for repo in "${ROOT}"/*; do
 
   git -C "${repo}" fetch upstream
 
-  # Check if we're behind
+  # Update the local upstream-* branch when it can be fast-forwarded.
   upstream_ref="upstream/${default_branch}"
-  if git -C "${repo}" merge-base --is-ancestor HEAD "${upstream_ref}"; then
+  current_head=$(git -C "${repo}" rev-parse HEAD)
+  upstream_head=$(git -C "${repo}" rev-parse "${upstream_ref}")
+
+  if [[ "${current_head}" == "${upstream_head}" ]]; then
     echo "    already up to date"
-  else
+  elif git -C "${repo}" merge-base --is-ancestor HEAD "${upstream_ref}"; then
     echo "    pulling upstream changes..."
-    git -C "${repo}" reset --hard "${upstream_ref}"
+    git -C "${repo}" pull --ff-only upstream "${default_branch}"
     echo "    synced to $(git -C "${repo}" rev-parse --short HEAD)"
+  else
+    echo "    local branch has diverged from ${upstream_ref}, skipping"
   fi
 done
 

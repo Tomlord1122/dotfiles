@@ -41,6 +41,8 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 # some more handy aliases
+alias cr=agent
+
 th() {
   cat <<'EOF'
 TMUX QUICK REFERENCE

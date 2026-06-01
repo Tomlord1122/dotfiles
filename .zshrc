@@ -297,7 +297,13 @@ fi
 
 # opencode
 export PATH=/Users/tomlord/.opencode/bin:$PATH
-export PATH=~/.npm-global/bin:$PATH
 
 # opencode
 export PATH=/Users/tom_liu/.opencode/bin:$PATH
+
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+autoload -Uz compinit && compinit -C
+# <<< grok installer <<<

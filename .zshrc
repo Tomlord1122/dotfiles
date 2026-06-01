@@ -248,10 +248,10 @@ git() {
   fi
 }
 
-if command -v zed >/dev/null 2>&1; then
-  alias c='zed'
+if command -v cursor >/dev/null 2>&1; then
+  alias c='cursor'
 elif command -v open >/dev/null 2>&1; then
-  alias c='open -a "Zed"'
+  alias c='open -a "Cursor"'
 fi
 
 export PATH="$HOME/go/bin:$PATH"

@@ -273,7 +273,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-export GOPRIVATE=github.trendmicro.com,adc.github.trendmicro.com
+export GOPRIVATE=github.trendmicro.com,adc.github.trendmicro.com,github.com/trend-ctcs/*
 
 if [[ -f "$ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
   source "$ZSH_CUSTOM/themes/powerlevel10k/powerlevel10k.zsh-theme"

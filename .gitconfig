@@ -1,5 +1,8 @@
 [include]
 	path = ~/.gitconfig.profile
+[core]
+	hooksPath = ~/.git-hooks
+	excludesFile = ~/.gitignore_global
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true

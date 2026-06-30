@@ -271,6 +271,7 @@ link_dotfiles() {
   log "Linking dotfiles from $DOTFILES_ROOT"
 
   link "$DOTFILES_ROOT/.gitconfig" "$HOME/.gitconfig"
+  link "$DOTFILES_ROOT/.gitignore_global" "$HOME/.gitignore_global"
   link "$DOTFILES_ROOT/.bashrc" "$HOME/.bashrc"
   link "$DOTFILES_ROOT/.zshrc" "$HOME/.zshrc"
   link "$DOTFILES_ROOT/.p10k.zsh" "$HOME/.p10k.zsh"
@@ -279,6 +280,9 @@ link_dotfiles() {
   log "Linking config directories"
   link "$DOTFILES_ROOT/config/ghostty" "$HOME/.config/ghostty"
   link "$DOTFILES_ROOT/config/nvim" "$HOME/.config/nvim"
+
+  log "Linking git hooks"
+  link "$DOTFILES_ROOT/hooks" "$HOME/.git-hooks"
 
   log "Setting up git profile"
   if [[ ! -L "$HOME/.gitconfig.profile" ]]; then

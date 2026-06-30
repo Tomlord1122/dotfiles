@@ -40,3 +40,6 @@ cd "$HOME/dotfiles"
 - existing real files/directories are backed up with a timestamp before being replaced
 - shell config avoids hard-coded machine-specific paths where possible
 - some app-specific tools, fonts, accounts, and secrets still need to be handled separately
+
+test
+

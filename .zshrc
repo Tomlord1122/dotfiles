@@ -245,6 +245,10 @@ fi
 
 export PATH="$HOME/go/bin:$PATH"
 
+if [[ -d "$HOME/.npm-global/bin" ]]; then
+  export PATH="$HOME/.npm-global/bin:$PATH"
+fi
+
 # bun completions
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 

@@ -212,6 +212,26 @@ install_shell_plugins() {
   clone_or_update https://github.com/zsh-users/zsh-syntax-highlighting.git "$zsh_custom/plugins/zsh-syntax-highlighting"
 }
 
+install_powerlevel10k_gitstatus() {
+  if [[ "$SKIP_EXTERNAL_INSTALLS" -eq 1 ]]; then
+    return
+  fi
+
+  local zsh_custom="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+  local gitstatus_dir="$zsh_custom/themes/powerlevel10k/gitstatus"
+  local gitstatus_install="$gitstatus_dir/install"
+
+  if [[ ! -x "$gitstatus_install" ]]; then
+    warn "powerlevel10k gitstatus installer not found; skipping gitstatus bootstrap"
+    return
+  fi
+
+  log "Bootstrapping powerlevel10k gitstatus"
+  if ! HOME="$HOME" sh "$gitstatus_install" -d "$gitstatus_dir" >/dev/null; then
+    warn "Failed to bootstrap powerlevel10k gitstatus; first interactive zsh start may retry"
+  fi
+}
+
 install_tmux_tpm() {
   if [[ "$SKIP_EXTERNAL_INSTALLS" -eq 1 ]]; then
     return
@@ -244,6 +264,15 @@ install_optional_toolchains() {
   if ! has_cmd rustup; then
     log "Installing rustup"
     curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs | sh -s -- -y
+  fi
+
+  if ! has_cmd gitnexus; then
+    if has_cmd npm; then
+      log "Installing gitnexus"
+      npm install -g gitnexus
+    else
+      warn "npm is not installed; skipping gitnexus installation"
+    fi
   fi
 }
 
@@ -327,6 +356,7 @@ link_bin_scripts() {
 install_core_packages
 install_oh_my_zsh
 install_shell_plugins
+install_powerlevel10k_gitstatus
 install_tmux_tpm
 install_optional_toolchains
 link_dotfiles

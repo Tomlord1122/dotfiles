@@ -18,8 +18,9 @@ cd "$HOME/dotfiles"
 - installs core packages with `brew` or `apt-get`
 - installs `oh-my-zsh`
 - installs `powerlevel10k`, `zsh-autosuggestions`, `zsh-syntax-highlighting`
+- bootstraps Powerlevel10k `gitstatus` so first interactive `zsh` startup is less likely to fail
 - installs `tmux` TPM
-- installs optional toolchains: `bun`, `nvm`, `rustup`
+- installs optional toolchains: `bun`, `nvm`, `rustup`, and `gitnexus` when `npm` is available
 - symlinks this repo's config files into `$HOME` and `$HOME/.config`
 - tries to switch the default shell to `zsh`
 
@@ -33,7 +34,7 @@ cd "$HOME/dotfiles"
 
 - `--link-only`: only create/update symlinks under `$HOME`
 - `--skip-packages`: skip `brew`/`apt-get` package installation
-- `--skip-optional-toolchains`: skip `bun`, `nvm`, `rustup`
+- `--skip-optional-toolchains`: skip `bun`, `nvm`, `rustup`, and `gitnexus`
 
 ## Notes
 
@@ -42,4 +43,3 @@ cd "$HOME/dotfiles"
 - some app-specific tools, fonts, accounts, and secrets still need to be handled separately
 
 test
-

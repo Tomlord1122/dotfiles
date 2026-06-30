@@ -10,19 +10,3 @@ gitnexus analyze
 if git status --porcelain | grep -qv '^??'; then
     git add -u
 fi
-
-# Collect untracked gitnexus-generated files and commit them separately
-gitnexus_patterns=(CLAUDE.md AGENTS.md .claude)
-untracked_gitnexus=()
-
-for pattern in "${gitnexus_patterns[@]}"; do
-    if git status --porcelain "$pattern" 2>/dev/null | grep -q '^??'; then
-        untracked_gitnexus+=("$pattern")
-    fi
-done
-
-if [[ ${#untracked_gitnexus[@]} -gt 0 ]]; then
-    echo "[pre-commit] Committing gitnexus generated files: ${untracked_gitnexus[*]}"
-    git add "${untracked_gitnexus[@]}"
-    git commit --no-verify -m "chore: add gitnexus generated files"
-fi

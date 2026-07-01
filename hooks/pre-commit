@@ -4,9 +4,16 @@ if ! command -v gitnexus &>/dev/null; then
     exit 0
 fi
 
+# Capture the set of files already staged for THIS commit before running
+# analyze, so we never sweep in unrelated working-tree changes afterwards.
+staged_files=$(git diff --cached --name-only --diff-filter=ACMR)
+
 gitnexus analyze
 
-# Stage modifications to already-tracked files into the current commit
-if git status --porcelain | grep -qv '^??'; then
-    git add -u
+# Re-stage only files that were already part of this commit (in case
+# gitnexus analyze regenerated them, e.g. doc stats). Never stage files
+# that weren't already staged -- that would silently pull unrelated
+# working-tree changes into the commit.
+if [ -n "$staged_files" ]; then
+    printf '%s\n' "$staged_files" | git add --pathspec-from-file=-
 fi
